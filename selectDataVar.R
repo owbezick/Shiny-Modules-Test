@@ -1,3 +1,6 @@
+# Modules inside of modules
+# For example, we could combine the dataset and selectVar modules to
+# make a module that allows the user to pick a variable from a built-in dataset:
 selectDataVarUI <- function(id) {
   tagList(
     datasetInput(NS(id, "data"), filter = is.data.frame),

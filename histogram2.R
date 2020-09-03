@@ -34,9 +34,8 @@ histogramApp <- function() {
   server <- function(input, output, session) {
     data <- datasetServer("data")
     x <- selectVarServer("var", data)
-    histogramServer("hist", x)
+    histogramServer("hist", x$value, x$name)
   }
   shinyApp(ui, server)
 } 
-
 histogramApp()
