@@ -1,5 +1,4 @@
 # Standard UI ----
-
 # ui <- fluidPage(
 #   selectInput("var", "Variable", names(mtcars)),
 #   numericInput("bins", "bins", 10, min = 1),
@@ -7,19 +6,11 @@
 # )
 
 # Standard Server ----
-
 # server <- function(input, output, session) {
 #   data <- reactive(mtcars[[input$var]])
 #   output$hist <- renderPlot({
 #     hist(data(), breaks = input$bins, main = input$var)
 #   }, res = 96)
-# }
-# histogramUI <- function(id) {
-#   tagList(
-#     selectInput(NS(id, "var"), "Variable", names(mtcars)),
-#     numericInput(NS(id, "bins"), "bins", 10, min = 1),
-#     plotOutput(NS(id, "hist"))
-#   )
 # }
 
 # Module UI ----
@@ -58,12 +49,15 @@ histogramServer <- function(id) {
 histogramApp <- function() {
   ui <- fluidPage(
     histogramUI("hist1")
+    , textOutput("out")
   )
   server <- function(input, output, session) {
     histogramServer("hist1")
+    output$out <- renderText(paste0("Bins: ", input$bins))
   }
   shinyApp(ui, server)  
 }
+histogramApp()
 # Note that, like all Shiny control, you need to use the same id in both UI and server, otherwise the two pieces will not be connected.
 # 
 # Namespacing turns modules into black boxes. From outside of the module, you can’t see any of the inputs, outputs, or reactives 

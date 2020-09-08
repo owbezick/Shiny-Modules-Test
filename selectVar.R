@@ -23,15 +23,15 @@ find_vars <- function(data, filter) {
 
 # Then the module server uses observeEvent() to update the inputSelect choices when the data changes, 
 # and returns a reactive that provides the values of the selected variable.
-# selectVarServer <- function(id, data, filter = is.numeric) {
-#   moduleServer(id, function(input, output, session) {
-#     observeEvent(data(), {
-#       updateSelectInput(session, "var", choices = find_vars(data(), filter))
-#     })
-#     
-#     reactive(data()[[input$var]])
-#   })
-# }
+selectVarServer <- function(id, data, filter = is.numeric) {
+  moduleServer(id, function(input, output, session) {
+    observeEvent(data(), {
+      updateSelectInput(session, "var", choices = find_vars(data(), filter))
+    })
+    
+    reactive(data()[[input$var]])
+  })
+}
 
 # To make our app, we again capture the results of the module server and connect it to an output in our UI. 
 # I want to make sure all the reactive plumbing is correct, so I use the dataset module as a source of reactive data frames.
@@ -59,20 +59,20 @@ selectVarApp <- function(filter = is.numeric) {
 # A server function can return multiple values exactly the same way that any R function can return 
 # multiple values: by returning a list. Below we modify selectVarServer() to return both the name 
 # and value, as reactives.
-selectVarServer <- function(id, data, filter = is.numeric) {
-  stopifnot(is.reactive(data))
-  stopifnot(!is.reactive(filter))
-  
-  moduleServer(id, function(input, output, session) {
-    observeEvent(data(), {
-      updateSelectInput(session, "var", choices = find_vars(data(), filter))
-    })
-    
-    list(
-      name = reactive(input$var),
-      value = reactive(data()[[input$var]])
-    )
-  })
-}
+# selectVarServer <- function(id, data, filter = is.numeric) {
+#   stopifnot(is.reactive(data))
+#   stopifnot(!is.reactive(filter))
+#   
+#   moduleServer(id, function(input, output, session) {
+#     observeEvent(data(), {
+#       updateSelectInput(session, "var", choices = find_vars(data(), filter))
+#     })
+#     
+#     list(
+#       name = reactive(input$var),
+#       value = reactive(data()[[input$var]])
+#     )
+#   })
+# }
 
 selectVarApp()

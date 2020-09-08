@@ -37,5 +37,7 @@ histogramApp <- function() {
     histogramServer("hist", x$value, x$name)
   }
   shinyApp(ui, server)
-} 
+}
+
+
 histogramApp()
